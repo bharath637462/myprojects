@@ -35,16 +35,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'dj_rest_auth',
     'rest_framework.authtoken',
+    'rest_framework',
     'thirapp',
+    'thirdparty',
 
 ]
 SITE_ID = 1
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

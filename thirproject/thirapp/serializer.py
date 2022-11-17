@@ -5,7 +5,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ("first_name", "last_name", "email", "is_staff", "is_superuser", "active", "password", "groups")
 
     def create(self, validated_data):
         # import pdb; pdb.set_trace()
@@ -34,13 +34,12 @@ class MaterialSerializer(serializers.ModelSerializer):
         return {'name': obj.category.name}
 
     def get_reviews_details(self, obj):
-        return [{'review': reviews.review, 'id': reviews.user.id, 'name': reviews.user.fname} for reviews in
+        return [{'review': reviews.review, 'id': reviews.user.id, 'name': reviews.user.first_name} for reviews in
                 obj.reviews.all()]
 
 
 class OrderSerializer(serializers.ModelSerializer):
     user_details = serializers.SerializerMethodField()
-
     materials_details = serializers.SerializerMethodField()
 
     class Meta:
@@ -48,7 +47,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'materials', 'user_details', 'materials_details')
 
     def get_user_details(self, obj):
-        return {'id': obj.user.id, 'name': obj.user.fname}
+        return {'id': obj.user.id, 'name': obj.user.first_name}
 
     def get_materials_details(self, obj):
         return [{'id': material.id, 'name': material.name, 'category': material.category.name} for material in
@@ -64,7 +63,7 @@ class UserReviewSerializer(serializers.ModelSerializer):
         fields = ('user', 'user_details', 'materials', 'materials_details', 'review')
 
     def get_user_details(self, obj):
-        return {'id': obj.user.id, 'name': obj.user.fname}
+        return {'id': obj.user.id, 'name': obj.user.first_name}
 
     def get_materials_details(self, obj):
         return {'id': obj.materials.id, 'name': obj.materials.name}
